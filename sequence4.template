@@ -1,0 +1,118 @@
+//Author: Aniruddh Kathiriya
+
+#include <iostream>
+#include <stdlib.h>
+#include <cassert>
+using namespace stack_sequence_4;
+namespace stack_sequence_4
+{
+	template <class Item>
+	sequence<Item>::sequence(){
+		//empty sequence
+	}
+	
+	template <class T>	
+	void sequence<T>::start( ){
+	
+	if(!(first.empty())){
+		while(first.size()!=1){
+			T value=first.top();
+			second.push(value);
+			first.pop();
+		}
+		
+	}else{
+		if(!second.empty()){
+		T value=second.top();
+		first.push(value);
+		second.pop();
+		}
+	}
+	
+	}
+	
+	template <class T>
+	void sequence<T>::advance( ){
+		assert(is_item());
+		if(!second.empty()){
+			T value=second.top();
+			first.push(value);
+			second.pop();
+		}else{
+		//last item
+			while(!first.empty()){
+				T value=first.top();
+				second.push(value);
+				first.pop();
+			}
+		}
+		
+	}
+	
+	template <class T>
+	void sequence<T>::attach(const T& entry){
+		if(is_item()){
+		first.push(entry);
+		}else{
+		while(!second.empty()){
+			T value=second.top();
+			first.push(value);
+			second.pop();
+		}
+		first.push(entry);
+		};
+	}
+	
+	template <class T>
+	void sequence<T>::insert(const T& entry){
+	if(!first.empty()){
+		T value=first.top();
+		second.push(value);
+		first.pop();
+		first.push(entry);
+	}else{
+		first.push(entry);
+	}
+	}
+	template <class T>
+	void sequence<T>::remove_current( ){
+		assert(is_item());
+		first.pop();
+		if(!second.empty()){
+			T value=second.top();
+			first.push(value);
+			second.pop();
+		}else{
+		
+			while(!first.empty()){
+				T value=first.top();
+				second.push(value);
+				first.pop();
+			}
+		}
+		
+	}
+	
+	template <class T>
+	std::size_t sequence<T>::size( ) const{
+		return first.size()+second.size();
+		
+	}
+	
+	template <class T>
+	bool sequence<T>::is_item( ) const{
+		return (first.size()!=0);
+		
+	}
+	 
+	template <class T>
+	T sequence<T>::current( ) const{
+		assert(is_item());
+		return first.top();
+		
+	}
+	
+	
+	
+	
+}
